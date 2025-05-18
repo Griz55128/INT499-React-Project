@@ -1,0 +1,229 @@
+html, body {
+height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background: #F7F7F7; 
+  color: #22223B;      
+  font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+}
+
+.streamlist-container {
+height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  background: #F7F7F7; 
+  overflow: hidden;
+}
+
+.top-controls {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1vw;
+  margin: 1vh 1vw 0 0;
+}
+
+.profile-button {
+  background: #FFF;
+  border: 1.5px solid #FC5226; /* Vibrant orange border */
+  border-radius: 8px;
+  padding: 0.5em 1.2em;
+  font-size: 1em;
+  color: #1E2761; /* Deep blue text */
+  font-weight: bold;
+  box-shadow: 0 2px 8px rgba(252,82,38,0.04);
+  transition: background 0.2s, color 0.2s, border 0.2s;
+}
+.profile-button:hover {
+  background: #FC5226;
+  color: #fff;
+  border-color: #1DBAB4; 
+}
+.navbar {
+ display: flex;
+  align-items: center;
+  background: linear-gradient(90deg, #1E2761 80%, #408EC6 100%);
+  border-radius: 12px;
+  padding: 0.8em 1em;
+  margin: 1vh 0 2vh 0;
+  gap: 1vw;
+  width: 98vw;
+  align-self: center;
+  box-shadow: 0 2px 12px rgba(30,39,97,0.08);
+}
+
+.nav-button {
+  background: #fff;
+  border: 1.5px solid #408EC6;
+  border-radius: 8px;
+  padding: 0.5em 1.2em;
+  font-size: 1em;
+  color: #1E2761;
+  font-weight: 500;
+  transition: background 0.2s, color 0.2s, border 0.2s;
+}
+.nav-button:hover {
+  background: #FC5226;
+  color: #fff;
+  border-color: #FC5226;
+}
+
+.search-form {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+  margin: 0 1vw;
+  min-width: 120px;
+}
+
+.search-label {
+  margin-right: 0.5em;
+  font-weight: 500;
+  color: #408EC6;
+}
+
+.search-input {
+  flex: 1;
+  padding: 0.5em 0.8em;
+  border-radius: 4px;
+  border: 1.5px solid #bbb;
+  font-size: 1em;
+  background: #fff;
+  min-width: 100px;
+  color: #1E2761;
+  transition: border 0.2s;
+}
+.search-container {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 180px;
+  display: flex;
+  align-items: center;
+}
+
+.search-history {
+  display: none;
+  position: absolute;
+  left: 0;
+  top: 100%;
+  background: #f4f4f4;
+  padding: 0.5em 1em;
+  border-radius: 8px;
+  margin-top: 0.2em;
+  z-index: 10;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  min-width: 220px;
+}
+
+.search-container:hover .search-history,
+.search-container:focus-within .search-history {
+  display: block;
+}
+
+
+
+.search-button {
+  padding: 0.5em 1.2em;
+  border-radius: 0 8px 8px 0;
+  border: none;
+  background: #FC5226;
+  color: #fff;
+  font-weight: bold;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.search-button:hover {
+  background: #1DBAB4;
+}
+
+
+.card-grid {
+  flex: 1 1 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 2vw;
+  padding: 2vw;
+  width: 100%;
+  min-height: 0;
+  box-sizing: border-box;
+}
+
+.card {
+  background: linear-gradient(135deg, #1E2761 70%, #408EC6 100%);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 24px rgba(30, 39, 97, 0.08), 0 1.5px 6px rgba(64, 142, 198, 0.06);
+  transition: transform 0.18s cubic-bezier(.68,-0.55,.27,1.55), box-shadow 0.18s;
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 8px 32px rgba(252, 82, 38, 0.18), 0 2px 8px rgba(30, 39, 97, 0.12);
+}
+
+.card i {
+  font-size: 2.6rem;
+  color: #FC5226;
+  margin-bottom: 10px;
+  text-shadow: 0 2px 12px rgba(252, 82, 38, 0.18);
+  transition: color 0.2s;
+}
+
+.card:hover i {
+  color: #1DBAB4;
+}
+
+.card-label {
+  display: block;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #F7F7F7;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 8px rgba(64, 142, 198, 0.22), 0 0px 16px #fff;
+  transition: color 0.2s, text-shadow 0.2s, transform 0.2s;
+  animation: pop-in 0.7s cubic-bezier(.68,-0.55,.27,1.55) both;
+}
+
+@keyframes pop-in {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  80% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.card:hover .card-label {
+  animation: bounce 0.5s;
+  color: #FC5226;
+  text-shadow: 0 4px 24px #FC5226, 0 0px 16px #fff;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: scale(1);
+  }
+  30% {
+    transform: scale(1.25);
+  }
+  50% {
+    transform: scale(0.95);
+  }
+  70% {
+    transform: scale(1.05);
+  }
+}
