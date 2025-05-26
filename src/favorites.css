@@ -1,0 +1,85 @@
+.favorites-page {
+  min-height: 100vh;
+  width: 100vw;
+  background: linear-gradient(120deg, #1E2761 70%, #408EC6 100%);
+  color: #F7F7F7;
+  padding: 2.5rem 0 0 0;
+  font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+  box-sizing: border-box;
+}
+
+.favorites-page h1 {
+  font-size: 2.8rem;
+  margin-bottom: 2.2rem;
+  letter-spacing: 2px;
+  color: #FC5226;
+  text-align: center;
+  text-shadow: 0 2px 16px #1E2761cc;
+}
+
+.titles-row {
+  display: flex;
+  gap: 2.2rem;
+  overflow-x: auto;
+  padding: 2rem 3vw 3rem 3vw;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.title-card {
+  background: linear-gradient(135deg, #1E2761 70%, #408EC6 100%);
+  border-radius: 22px;
+  box-shadow: 0 8px 32px rgba(30,39,97,0.22), 0 2px 8px rgba(64,142,198,0.10);
+  min-width: 260px;
+  max-width: 260px;
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem 1rem 1.2rem 1rem;
+  transition: transform 0.22s cubic-bezier(.68,-0.55,.27,1.55), box-shadow 0.18s;
+  position: relative;
+}
+
+.title-card:hover {
+  transform: scale(1.07) translateY(-8px);
+  box-shadow: 0 12px 36px #FC522633, 0 4px 16px #FFFFFF;
+}
+
+.poster-img {
+  width: 210px;
+  height: 320px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 1.2rem;
+  box-shadow: 0 6px 24px #1DBAB4aa;
+  border: 3px solid #FC5226;
+  background: #fff;
+}
+
+.back-btn {
+  margin: 0 0 2rem 2vw;
+  padding: 0.6rem 1.5rem;
+  border-radius: 24px;
+  border: none;
+  background: #FC5226;
+  color: #fff;
+  font-weight: bold;
+  font-size: 1.1rem;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(30,39,97,0.10);
+  transition: background 0.2s, color 0.2s;
+  display: inline-block;
+}
+
+.back-btn:hover {
+  background: #1DBAB4;
+  color: #1E2761;
+}
+
+.empty-msg {
+  color: #bbb;
+  padding: 2.5rem 0;
+  font-size: 1.3rem;
+  text-align: center;
+}
