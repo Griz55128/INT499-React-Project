@@ -1,78 +1,91 @@
-// Movies.js
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './movies.css';
 
-// Helper to generate random movies
-function getRandomMovies(count = 50) {
-  const sampleTitles = [
-    "The Last Dawn", "Shadow Realm", "Infinite Skies", "Neon Nights", "Lost Horizon",
-    "Echoes of Time", "Quantum Drift", "Celestial", "Redemption Road", "The Forgotten City",
-    "Silent Storm", "Nightfall", "Solaris", "The Outpost", "Blackout",
-    "Zero Hour", "Obsidian", "The Arrival", "Aftermath", "Ironclad",
-    "Starlight", "Dark Matter", "Ghost Protocol", "The Heist", "Wildfire",
-    "Blue Moon", "Mirage", "The Crossing", "Pulse", "Vortex",
-    "Gravity", "Frostbite", "The Divide", "Specter", "The Pact",
-    "Genesis", "The Signal", "Nova", "Reckoning", "The Maze",
-    "Revolt", "The Hunt", "Phantom", "The Escape", "Lifeline",
-    "The Grid", "The Summit", "The Cure", "The Rift", "The Return"
-  ];
-  return Array.from({ length: count }, (_, i) => ({
-    id: i + 1,
-    title: sampleTitles[i % sampleTitles.length] + ' ' + (Math.floor(Math.random() * 100) + 1),
-    poster: `https://picsum.photos/seed/movie${i}/300/450`
-  }));
-}
-
-const MOVIES = getRandomMovies(50);
+const API_KEY = '643e67f6d76fe73a135c78592c718194'; // <-- Replace with your actual TMDB API key
+const BASE_URL = 'https://api.themoviedb.org/3';
 
 export default function Movies() {
   const navigate = useNavigate();
+  const [query, setQuery] = useState('');
+  // Initialize results from localStorage if available
+  const [results, setResults] = useState(() => {
+    const saved = localStorage.getItem('lastMovieResults');
+    return saved ? JSON.parse(saved) : [];
+  });
+  const [error, setError] = useState(null);
 
-  // Carousel state
-  const [startIdx, setStartIdx] = useState(0);
-  const visibleCount = 6; // Number of posters visible at once
+  // Persist results to localStorage whenever they change
+  useEffect(() => {
+    localStorage.setItem('lastMovieResults', JSON.stringify(results));
+  }, [results]);
 
-  const handlePrev = () => {
-    setStartIdx(idx => Math.max(0, idx - visibleCount));
-  };
-
-  const handleNext = () => {
-    setStartIdx(idx => Math.min(MOVIES.length - visibleCount, idx + visibleCount));
+  // Handle search form submission
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    if (!query) return;
+    try {
+      const response = await fetch(
+        `${BASE_URL}/search/movie?api_key=${API_KEY}&query=${encodeURIComponent(query)}`
+      );
+      if (!response.ok) {
+        throw new Error('Failed to fetch');
+      }
+      const data = await response.json();
+      setResults(data.results || []);
+      setError(null);
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
   return (
-    <div className="movies-page">
-      <button className="back-btn" onClick={() => navigate(-1)}>
+    <div className="movies-container" style={{ padding: 24 }}>
+      <h2>Movie Search (Powered by TMDB)</h2>
+	  <button className="back-btn" onClick={() => navigate(-1)}>
         &larr; Back
       </button>
-      <h1 className="movies-title">Browse Movies</h1>
-      <div className="carousel-container">
-        <button
-          className="carousel-arrow left"
-          onClick={handlePrev}
-          disabled={startIdx === 0}
-        >
-          &#8249;
-        </button>
-        <div className="carousel">
-          {MOVIES.slice(startIdx, startIdx + visibleCount).map(movie => (
-            <div className="carousel-item" key={movie.id}>
-              <img src={movie.poster} alt={movie.title} className="carousel-poster" />
-              <div className="carousel-caption">{movie.title}</div>
-            </div>
-          ))}
-        </div>
-        <button
-          className="carousel-arrow right"
-          onClick={handleNext}
-          disabled={startIdx >= MOVIES.length - visibleCount}
-        >
-          &#8250;
-        </button>
+      <form onSubmit={handleSearch} style={{ marginBottom: 20 }}>
+        <input
+          type="text"
+          value={query}
+          onChange={e => setQuery(e.target.value)}
+          placeholder="Search movies..."
+          style={{ padding: 8, width: '300px', marginRight: 8 }}
+        />
+        <button type="submit">Search</button>
+      </form>
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
+        {results.length === 0 && <p>No results found.</p>}
+        {results.map(movie => (
+          <div key={movie.id} style={{ width: 150 }}>
+            {movie.poster_path ? (
+              <img
+                src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
+                alt={movie.title}
+                style={{ width: '100%', borderRadius: 8 }}
+              />
+            ) : (
+              <div
+                style={{
+                  width: '100%',
+                  height: 225,
+                  backgroundColor: '#ccc',
+                  borderRadius: 8,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}
+              >
+                No Image
+              </div>
+            )}
+            <h4>{movie.title}</h4>
+            <p>Release: {movie.release_date || 'N/A'}</p>
+          </div>
+        ))}
       </div>
     </div>
   );
 }
-

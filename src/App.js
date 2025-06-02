@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Link, Routes, Navigate } from 'react-router-dom';
-
 import StreamList from './StreamList';
 import Movies from './Movies';
 import Cart from './Cart';
@@ -10,7 +9,6 @@ import About from './About';
 import Profile from './Profile';
 import Favorites from './Favorites';
 import Logout from './Logout';
-
 import Login from './Login'; // Import your Login component
 import './styles.css';
 
