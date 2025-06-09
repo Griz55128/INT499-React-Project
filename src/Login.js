@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './login.css';
 import { FaEdit, FaTrash, FaCheck } from 'react-icons/fa';
+import { GoogleLogin } from '@react-oauth/google';
 
 const Login = ({ setIsLoggedIn }) => {
   // Form state
@@ -22,7 +23,6 @@ const Login = ({ setIsLoggedIn }) => {
       username === validUsername && password === validPassword
         ? 'Success'
         : 'Failed';
-    // Add attempt to list
     setAttempts([
       ...attempts,
       {
@@ -32,15 +32,42 @@ const Login = ({ setIsLoggedIn }) => {
         completed: status === 'Success',
       },
     ]);
-    // If successful, log in
     if (status === 'Success') {
       setIsLoggedIn(true);
+      localStorage.setItem('custom_login', 'true');
     } else {
       alert('Invalid username or password');
     }
-    // Clear input
     setUsername('');
     setPassword('');
+  };
+
+  // Google login handlers
+  const handleGoogleSuccess = (credentialResponse) => {
+    localStorage.setItem('google_token', credentialResponse.credential);
+    setIsLoggedIn(true);
+    setAttempts([
+      ...attempts,
+      {
+        id: Date.now(),
+        username: 'Google User',
+        status: 'Success (Google)',
+        completed: true,
+      },
+    ]);
+  };
+
+  const handleGoogleError = () => {
+    alert('Google Sign-In was unsuccessful. Please try again.');
+    setAttempts([
+      ...attempts,
+      {
+        id: Date.now(),
+        username: 'Google User',
+        status: 'Failed (Google)',
+        completed: false,
+      },
+    ]);
   };
 
   // Edit attempt
@@ -73,7 +100,7 @@ const Login = ({ setIsLoggedIn }) => {
   };
 
   return (
-    <div className="login">
+    <div className="loginPage">
       <div className="headline">
         Welcome<br /><span>To Streamlist</span>
       </div>
@@ -115,6 +142,21 @@ const Login = ({ setIsLoggedIn }) => {
           </div>
         </div>
       </div>
+      {/* Google Login in its own card */}
+      <div className="google-login-outer">
+        <div className="google-login-container">
+          <div className="google-login-separator">
+            {/*<span></span>*/}
+          </div>
+          <div className="google-login-inner">
+            <GoogleLogin
+              onSuccess={handleGoogleSuccess}
+              onError={handleGoogleError}
+              useOneTap
+            />
+          </div>
+        </div>
+      </div>
       {/* CRUD List of Login Attempts */}
       <div className="login-attempts">
         <h3>Login Attempts</h3>
@@ -124,7 +166,7 @@ const Login = ({ setIsLoggedIn }) => {
               key={a.id}
               style={{
                 textDecoration: a.completed ? 'line-through' : 'none',
-                color: a.completed ? '#1DBAB4' : a.status === 'Failed' ? '#FC5226' : '#fff',
+                color: a.completed ? '#1DBAB4' : a.status.includes('Failed') ? '#FC5226' : '#fff',
                 marginBottom: '0.8rem',
                 display: 'flex',
                 alignItems: 'center',

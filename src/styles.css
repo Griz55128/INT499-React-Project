@@ -76,6 +76,7 @@ height: 100vh;
   flex-grow: 1;
   margin: 0 1vw;
   min-width: 120px;
+  
 }
 
 .search-label {
@@ -101,6 +102,7 @@ height: 100vh;
   min-width: 180px;
   display: flex;
   align-items: center;
+  
 }
 
 .search-history {

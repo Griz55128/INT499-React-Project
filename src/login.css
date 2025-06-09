@@ -55,11 +55,20 @@
   100% { transform: translateY(-30px) scale(1.1) rotate(35deg);}
 }
 
-.typewriterContainer {
-  position: relative;
-  margin: 80px auto 0 auto;
-  width: 380px;
-  z-index: 2;
+.typewriterContainer,
+.google-login-outer {
+  width: 390px;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+  /* Ensure both have the same border radius on matching sides */
+  border-top-left-radius: 22px;
+  border-top-right-radius: 22px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  /* Remove any side padding that would offset alignment */
+  padding-left: 0;
+  padding-right: 0;
 }
 .typewriterBase {
   width: 100%;
@@ -132,4 +141,61 @@
 }
 .loginForm button:hover {
   background: linear-gradient(90deg, #408EC6 0%, #FC5226 100%);
+}.google-login-outer {
+  /* Only round the bottom corners */
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-left-radius: 22px;
+  border-bottom-right-radius: 22px;
+  margin-top: 0; /* Remove any gap between the two cards */
+  /* If you want a thin line between the cards, you can add a border-top */
+  /* border-top: 1.5px solid #eee; */
+}
+.google-login-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.google-login-separator {
+  width: 80%;
+  text-align: center;
+  border-bottom: 1px solid #408EC6;
+  line-height: 0.1em;
+  margin: 18px 0 16px 0;
+  color: #408EC6;
+  font-size: 0.95rem;
+  opacity: 0.8;
+}
+.google-login-separator span {
+  background: #fff;
+  padding: 0 12px;
+  position: relative;
+  top: 0.6em;
+}
+.google-login-inner {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.google-login-inner .google-login-outer {
+  margin: 0 auto;
+}
+.google-login-inner .google-login-outer .google-login-container {
+  width: 100%;
+}
+.google-login-inner .google-login-outer .google-login-container .google-login-btn {
+  width: 100%;
+  display: flex
+}
+
+@media (max-width: 500px) {
+  .typewriterContainer,
+  .google-login-outer {
+    width: 98vw;
+    min-width: 0;
+    padding-left: 0;
+    padding-right: 0;
+  }
 }
